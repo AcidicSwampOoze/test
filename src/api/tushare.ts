@@ -25,7 +25,7 @@ interface Stock {
 
 const tushare = axios.create({
   baseURL: TUSHARE_API_URL,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 /**
@@ -64,7 +64,7 @@ export const getLowMarketCapStockCodes = async (): Promise<string[]> => {
     return result;
   };
 
-  const chunks = chunkArray(allStockCodes, 1000);
+  const chunks = chunkArray(allStockCodes, 500);
 
   const lowMarketCapStocks: any[] = [];
   const seenStocks = new Set<string>();
@@ -161,6 +161,7 @@ export const getLowMarketCapStockDetails = async (): Promise<{ ts_code: string, 
           }
           dailyBasicData[ts_code].push(item);
         });
+        console.log('responseDailyBasic:', responseDailyBasic);
       } else {
         console.error('Response data is null:', responseDailyBasic.data);
       }
@@ -173,6 +174,7 @@ export const getLowMarketCapStockDetails = async (): Promise<{ ts_code: string, 
           }
           dailyData[ts_code].push(item);
         });
+        console.log('responseDaily:', responseDaily);
       } else {
         console.error('Response data is null:', responseDaily.data);
       }
@@ -199,8 +201,8 @@ export const getLowMarketCapStockDetails = async (): Promise<{ ts_code: string, 
 
     combinedItems.sort((a, b) => b.trade_date.localeCompare(a.trade_date));
 
-    // return combinedItems.slice(0, 10);
     return combinedItems.slice(0, 10);
+    // return combinedItems;
   }).flat();
 
   return combinedData;
