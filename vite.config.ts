@@ -7,6 +7,7 @@ import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/acidicswampooze.github.io/', // 根据你的仓库名称配置
   plugins: [
     vue(),
     vueJsx(),
